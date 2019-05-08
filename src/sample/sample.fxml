@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Rectangle fx:id="Elevator_1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="164.0" layoutX="541.0" layoutY="572.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+      <Rectangle fx:id="Elevator_2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="164.0" layoutX="230.0" layoutY="572.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+   </children>
+</AnchorPane>
