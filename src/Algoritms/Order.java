@@ -7,10 +7,10 @@ public class Order {
     private Direction direction;
 
     public Order(){
-        this.floor = (int)(Math.random() * 20) + 1;
+        this.floor = (int)(Math.random() * 10) + 1;
         this.direction = Math.random() * 2 == 0 ? Direction.UP : Direction.DOWN;
         {
-            if (floor == 20) {
+            if (floor == 10) {
                 this.direction = Direction.DOWN;
             }
             if (floor == 1) {
@@ -30,7 +30,7 @@ public class Order {
     public int getNext() {
         while (next == 0 || next == floor) {
             if (direction.equals(Direction.UP)){
-                next = (int)(Math.random() * 20) + floor;
+                next = (int)(Math.random() * 10) + floor;
             }
             else {
                 next = (int)(Math.random() * floor) + 1;

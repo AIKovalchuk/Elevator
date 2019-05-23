@@ -1,5 +1,8 @@
 package Algoritms;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -32,27 +35,6 @@ public class Manager implements Runnable {
 
 
         while (running){
-            /*while (listOfOrder.isEmpty()){
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            Order order = listOfOrder.get(0);
-            listOfOrder.remove(listOfOrder.indexOf(order));
-            if (elevator1.getDirection().equals(order.getDirection()) || elevator1.getDirection().equals(Direction.WAIT) ){
-                    elevator1.update(order);
-                    continue;
-
-            } else if (elevator2.getDirection().equals(order.getDirection()) || elevator2.getDirection().equals(Direction.WAIT)){
-                    elevator2.update(order);
-                    continue;
-            }
-            else {
-                push(order);
-            }*/
         }
 
 
@@ -71,15 +53,17 @@ public class Manager implements Runnable {
     public synchronized boolean isEmpty() { return listOfOrder.isEmpty(); }
 
     public synchronized Order pop() {
-        Order order = listOfOrder.get(0);
+        Order order = null;
         if (!listOfOrder.isEmpty()) {
-            listOfOrder.remove(listOfOrder.indexOf(order));
+            Iterator<Order> it = listOfOrder.iterator();
+            order = it.next();
+            it.remove();
         }
         return order;
     }
 
     public synchronized ArrayList<Order> popFromLevel(int level, Direction dir, int freeMass){
-        ArrayList<Order> list = new ArrayList<>();
+        ArrayList<Order> list = new ArrayList<Order>();
         Iterator<Order> it = listOfOrder.iterator();
         while (it.hasNext()){
             Order order = it.next();
@@ -94,28 +78,22 @@ public class Manager implements Runnable {
 
     public int getFloorEl1(){ return elevator1.getCurrent_floor(); }
 
-    public int getWeight1(){ return elevator1.getWeight();}
-
-    public int getFloorEl2(){ return elevator2.getCurrent_floor(); }
-
-    public int getWeight2(){ return elevator2.getWeight();}
-
-    public int getLevel1() {
-        return elevator1.getCurrent_floor();
+    public void render(GraphicsContext gc, Image man, Image man2){
+        if(!listOfOrder.isEmpty()) {
+            for (int i = 0; i < listOfOrder.size(); i++) {
+                if (listOfOrder.get(i).getDirection().equals(Direction.UP)) {
+                    gc.drawImage(man2, 400, listOfOrder.get(i).getFloor() * 60 + 20);
+                }
+                else {
+                    gc.drawImage(man, 400, listOfOrder.get(i).getFloor() * 60 + 20);
+                }
+            }
+        }
     }
 
-    public int getLevel2() {
-        return elevator2.getCurrent_floor();
+    public void renderElevator(GraphicsContext gc, Image man, Image man2, Image el){
+        elevator1.render(gc, man, man2, el);
+        elevator2.render(gc, man, man2, el);
     }
-
-    public ArrayList<Order> getListOfOrder(){ return (ArrayList<Order>) listOfOrder.clone(); }
-
-    public ArrayList<Order> getListOfOrderEl1(){ return elevator1.getListOfOrder();}
-
-    public ArrayList<Order> getListOfOrderEl2(){ return elevator2.getListOfOrder();}
-
-    public ArrayList<Order> getListOfinOrderEl1(){ return elevator1.getInElevator();}
-
-    public ArrayList<Order> getListOfinOrderEl2(){ return elevator2.getInElevator();}
 
 }

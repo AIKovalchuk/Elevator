@@ -2,6 +2,7 @@ package sample;
 
 
 import Algoritms.Client;
+import Algoritms.Direction;
 import Algoritms.Manager;
 import Algoritms.Order;
 import javafx.animation.AnimationTimer;
@@ -12,6 +13,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -20,20 +22,9 @@ import java.util.ArrayList;
 
 
 public class Main extends Application {
-    //private static Manager manager;
-    private static int CountEl1 = 0;
-    private static int CountEl2 = 0;
-
-    public void update(){
-
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        /*Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Elevators GUI");
-        primaryStage.setScene(new Scene(root, 900, 750));
-        primaryStage.show();*/
 
         primaryStage.setTitle("Elevators");
 
@@ -42,21 +33,39 @@ public class Main extends Application {
         primaryStage.setScene(theScene);
 
         Canvas canvas = new Canvas(900, 750);
-        root.getChildren().add(canvas);
+        Line line1 = new Line(20, 180, 750, 180);
+        line1.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line2 = new Line(20, 240, 750, 240);
+        line2.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line3 = new Line(20, 300, 750, 300);
+        line3.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line4 = new Line(20, 360, 750, 360);
+        line4.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line5 = new Line(20, 420, 750, 420);
+        line5.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line6 = new Line(20, 480, 750, 480);
+        line6.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line7 = new Line(20, 540, 750, 540);
+        line7.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line8 = new Line(20, 600, 750, 600);
+        line8.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line9 = new Line(20, 660, 750, 660);
+        line9.getStrokeDashArray().addAll(100.0, 1.0);
+        Line line10 = new Line(20, 720, 750, 720);
+        line10.getStrokeDashArray().addAll(100.0, 1.0);
+        root.getChildren().addAll(canvas,line1,line2,line3,line4,line5,line6,line7,line8,line9,line10);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setFill(Color.BLUE);
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
-        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 18 );
+        Font theFont = Font.font( "Times New Roman", 18 );
         gc.setFont( theFont );
-        //gc.fillText( "Hello, World!", 60, 50 );
-        //gc.strokeText( "Hello, World!", 60, 50 );
 
-        Image el1 = new Image("sample/Elevator.png");
-        Image el2 = new Image("sample/Elevator.png");
+        Image el = new Image("sample/Elevator.png");
         Image man = new Image("sample/Man.png");
+        Image man2 = new Image("sample/Man2.png");
         final long startNanoTime = System.nanoTime();
 
         new AnimationTimer()
@@ -66,45 +75,10 @@ public class Main extends Application {
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 gc.clearRect(0,0,900,750);
-                ArrayList<Order> list = Manager.getInstance().getListOfOrder();
-                if(!list.isEmpty()) {
-                    for (int i = 0; i < list.size(); i++) {
-                        gc.drawImage(man, 400, list.get(i).getFloor() * 20);
-                    }
-                }
-
-
-
-                ArrayList<Order> listInEl1 = Manager.getInstance().getListOfinOrderEl1();
-                CountEl1 = listInEl1.size();
-                for (int i = 0; i < list.size(); i++){
-                    gc.drawImage(man,150 + 100 + 15*CountEl1,Manager.getInstance().getFloorEl1()*20 + 5);
-                    CountEl1--;
-                }
-
-                ArrayList<Order> listInEl2 = Manager.getInstance().getListOfinOrderEl2();
-                CountEl2 = listInEl2.size();
-                for (int i = 0; i < list.size(); i++){
-                    gc.drawImage(man,650 + 100 + 15*CountEl2,Manager.getInstance().getFloorEl2()*20 + 5);
-                    CountEl2--;
-                }
-
-                //gc.fillText( "Mass of 1  = "+Manager.getInstance().getWeight1(),150, 30);
-                gc.strokeText("Mass of 1  = "+Manager.getInstance().getWeight1(),150, 30);
-                //gc.fillText( "Mass of 2  = "+Manager.getInstance().getWeight2(),450, 30);
-                gc.strokeText("Mass of 2  = "+Manager.getInstance().getWeight2(),450, 30);
-                //gc.fillText( "Level of 1  = "+Manager.getInstance().getLevel1(),150, 50);
-                gc.strokeText("Level of 1  = "+Manager.getInstance().getLevel1(),150, 50);
-                //gc.fillText( "Level of 2  = "+Manager.getInstance().getLevel2(),450, 50);
-                gc.strokeText("Mass of 2  = "+Manager.getInstance().getLevel2(),450, 50);
-                gc.drawImage(el1, 150, Manager.getInstance().getFloorEl1()*20);
-                gc.drawImage(el2, 500, Manager.getInstance().getFloorEl2()*20);
+                Manager.getInstance().render(gc,man,man2);
+                Manager.getInstance().renderElevator(gc,man,man2,el);
             }
         }.start();
-
-        /*Image earth = new Image( "earth.png" );
-        gc.drawImage( earth, 180, 100 );*/
-
         primaryStage.show();
     }
 
